@@ -5,8 +5,12 @@ import net.bifewagyu.authenticator.dtos.request.UserRequest;
 import net.bifewagyu.authenticator.dtos.response.UserResponse;
 import net.bifewagyu.authenticator.models.EntityUser;
 import net.bifewagyu.authenticator.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -35,12 +39,24 @@ public class UserService {
 
     }
 
+    public List<UserResponse> mostrarUsuario() {
+        return userRepository.findAll().stream()
+                .map(u -> new UserResponse(u.getId(),u.getNome(), u.getEmail())).toList();
 
-    public UserResponse removerUsuario(EntityUser user) {
-        userRepository.delete(user);
+    }
 
 
-        return new UserResponse(user.getId(), user.getNome(), user.getEmail() + "REMOVED");
+    public UserResponse removerUsuario(Long id) {
+        EntityUser deleteUser = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario n Encontrado"));
+        userRepository.delete(deleteUser);
+
+        return new UserResponse(deleteUser.getId(), deleteUser.getNome(), deleteUser.getEmail());
+
+    }
+
+
+    public boolean matchPassword(UserRequest userRequest, String password) {
+        return passwordEncoder.matches(userRequest.password(), password);
     }
 
 
