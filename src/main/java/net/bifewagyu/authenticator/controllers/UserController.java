@@ -4,7 +4,6 @@ package net.bifewagyu.authenticator.controllers;
 import jakarta.validation.Valid;
 import net.bifewagyu.authenticator.dtos.request.UserRequest;
 import net.bifewagyu.authenticator.dtos.response.UserResponse;
-import net.bifewagyu.authenticator.models.EntityUser;
 import net.bifewagyu.authenticator.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,15 +26,12 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<UserResponse> registerUser(@Valid @RequestBody UserRequest userRequest) {
-        System.out.println("CHEGOU" + userRequest.toString());
 
-        UserResponse user = userService.salvarUsuario(userRequest);
-
+       UserResponse user = userService.salvarUsuario(userRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
 
     }
-
 
     @GetMapping("/getUsers")
     public ResponseEntity<List<UserResponse>> getUsers() {

@@ -3,6 +3,7 @@ package net.bifewagyu.authenticator.dtos.request;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import net.bifewagyu.authenticator.roles.RolesNames;
 
 
 //Envia para a aplicação
@@ -17,7 +18,9 @@ public record UserRequest(
 
         @NotBlank(message = "Insira a senha")
         @Size(min = 8, max = 32, message = "")
-        String password) {
+        String password,
+
+        RolesNames role) {
 
     // DESCOBRIR COMO APARECER NO LOG, FAZER QUE APAREÇA A MENSAGEM FINALIZO POR HJ
 }

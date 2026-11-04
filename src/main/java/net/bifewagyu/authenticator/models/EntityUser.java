@@ -1,15 +1,17 @@
 package net.bifewagyu.authenticator.models;
 
 
-import jakarta.annotation.Nullable;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
 
-@Entity
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.List;
+
+@Table(name = "users")
+@Entity(name = "User")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Getter
 @Setter
 public class EntityUser {
@@ -18,7 +20,16 @@ public class EntityUser {
     @GeneratedValue(strategy = GenerationType.AUTO)
     long id;
     String nome;
+
+    @Column(unique = true)
     String email;
+
     String password;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "users_roles",
+    joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "role_id"))
+    public List<RoleModels> roles;
 
 }
