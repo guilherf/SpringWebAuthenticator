@@ -47,7 +47,7 @@ public class WebSecurity {
         httpSecurity.sessionManagement(sessionManagementConfigurer -> sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         httpSecurity.authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(ENDPOINTS_SEM_AUTENTIFICACAO).permitAll().anyRequest().authenticated()
-                ).formLogin((formLogin) -> formLogin.loginPage("/user/login")).headers(httpSecurityHeadersConfigurer ->
+                ).headers(httpSecurityHeadersConfigurer ->
                 httpSecurityHeadersConfigurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)).addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return httpSecurity.build();
     }

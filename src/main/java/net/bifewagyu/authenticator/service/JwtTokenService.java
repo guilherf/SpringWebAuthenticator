@@ -15,10 +15,10 @@ import java.time.ZonedDateTime;
 @Service
 public class JwtTokenService {
 
-    @Value("${api.security.token.secret}")
-    private static String SECRET_KEY;
+    @Value("${SECRET_TOKEN}")
+    private String SECRET_KEY;
 
-    private static String ISSUER = "pizzurg-api";
+    private static final String ISSUER = "pizzurg-api";
 
 
 
@@ -29,6 +29,7 @@ public class JwtTokenService {
                     .withIssuer(ISSUER)
                     .withIssuedAt(creationDate())
                     .withExpiresAt(expirationDate())
+                    .withSubject(userDetails.getUsername())
                     .sign(algorithm);
         } catch (JWTCreationException e) {
             throw new JWTCreationException("Erro ao generar JWT", e);

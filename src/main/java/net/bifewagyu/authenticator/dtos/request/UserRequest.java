@@ -22,5 +22,4 @@ public record UserRequest(
 
         RolesNames role) {
 
-    // DESCOBRIR COMO APARECER NO LOG, FAZER QUE APAREÇA A MENSAGEM FINALIZO POR HJ
 }

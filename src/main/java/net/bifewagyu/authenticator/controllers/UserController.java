@@ -2,7 +2,9 @@ package net.bifewagyu.authenticator.controllers;
 
 
 import jakarta.validation.Valid;
+import net.bifewagyu.authenticator.dtos.request.LoginRequest;
 import net.bifewagyu.authenticator.dtos.request.UserRequest;
+import net.bifewagyu.authenticator.dtos.response.RecoveryJwtTokenDto;
 import net.bifewagyu.authenticator.dtos.response.UserResponse;
 import net.bifewagyu.authenticator.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,17 @@ public class UserController {
        UserResponse user = userService.salvarUsuario(userRequest);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
+
+    }
+
+    @GetMapping("/login")
+    public ResponseEntity<RecoveryJwtTokenDto> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
+
+        RecoveryJwtTokenDto token = userService.authenticateUser(loginRequest);
+
+
+
+        return new ResponseEntity<>(token, HttpStatus.OK);
 
     }
 
