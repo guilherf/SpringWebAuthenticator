@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name = "models")
 @Table(name = "model")
@@ -28,11 +30,14 @@ public class EntityAdmin {
 
     String password;
 
-    @ManyToOne(fetch = FetchType.EAGER,  cascade = CascadeType.ALL)
-    @JoinTable(name = "admin_roles",
-    joinColumns = @JoinColumn(name = "admin_id"),
-    inverseJoinColumns = @JoinColumn(name = "role_id"))
-    List<RoleModels> role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "admin_roles",
+            joinColumns = @JoinColumn(name = "admin_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<RoleModels> role = new HashSet<>();
+
 
 
 
